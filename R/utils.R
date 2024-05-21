@@ -102,10 +102,6 @@ process_tag <- function(
 #' Get dependencies
 #'
 #' @param dir Directory to explore.
-#' @param platform The platform supplied to `sysreqs()`.
-#'   It can be `NULL` when the value of the R_DEPS_PLATFORM environment variable is used when set,
-#'   defaults to `"DEB"` when R_DEPS_PLATFORM is unset.
-#'   It can be `NA` in which case no system requirements are returned.
 #' @param installed The `priority` argument for `installed.packages()`.
 #' @param dev Logical, include 'development' dependencies as well for `renv::dependencies()`.
 #'
@@ -113,7 +109,6 @@ process_tag <- function(
 #' @noRd
 get_deps <- function(
     dir = getwd(),
-    platform = NULL,
     installed = c("base", "recommended"),
     dev = TRUE
 ) {
@@ -164,9 +159,7 @@ get_deps <- function(
             tb[i, "remote"] <- rems[j]
         }
     }
-    sysreq <- sysreqs(all[!tb$dev], platform = platform)
-    extra_sys <- unique(unlist(tagged_deps$sys))
-    sysreqs <- sort(union(sysreq, extra_sys))
+    sysreqs <- sort(unique(unlist(tagged_deps$sys)))
     sysreqs <- sysreqs[nzchar(sysreqs)]
     attr(tb, "sysreqs") <- if (is.null(sysreqs))
         character(0) else sysreqs
@@ -236,44 +229,6 @@ write_deps <- function(
     }
 }
 
-#' Get System Requirements
-#'
-#' @param pkg Character, packages for which system requirements are needed.
-#' @param platform Character, the platform to be filtered for 
-#'   (e.g. `"DEB"`, `"RPM`, etc. see <https://sysreqs.r-hub.io/>). 
-#'   It can be `NULL` when the value of the R_DEPS_PLATFORM environment variable is used when set,
-#'   defaults to `"DEB"` when R_DEPS_PLATFORM is unset.
-#'   It can be `NA` in which case no system requirements are returned.
-#'
-#' @examples
-#' sysreqs("igraph")
-#' sysreqs("igraph", platform = "RPM")
-#'
-#' @return A character vector.
-#' @noRd
-sysreqs <- function(pkg, platform = NULL) {
-    if (is.null(platform)) {
-        PLATFORM <- Sys.getenv("R_DEPS_PLATFORM")
-        platform <- if (PLATFORM == "")
-            "DEB" else PLATFORM
-    }
-    if (missing(pkg) || is.na(platform))
-        return(character(0))
-    j <- try(suppressWarnings(jsonlite::fromJSON(
-        sprintf("https://sysreqs.r-hub.io/pkg/%s",
-            paste0(as.character(pkg), collapse = ",")),
-        simplifyVector = FALSE)), silent = TRUE)
-    if (inherits(j, "try-error"))
-        return(NULL)
-    v <- unlist(j)
-    s <- sort(unique(unname(v[grep(paste0("\\.", platform), names(v))])))
-    if (!is.null(s)) {
-        s <- unlist(strsplit(s, "[[:space:]]"))
-        s <- sort(unique(unname(s[nchar(s) > 0])))
-    }
-    s
-}
-
 #' R versions
 #'
 #' Based on `rversions::r_versions()`.
@@ -300,31 +255,32 @@ rversions <- function() {
     "3.4.1", "3.4.2", "3.4.3", "3.4.4", "3.5.0", "3.5.1", "3.5.2", 
     "3.5.3", "3.6.0", "3.6.1", "3.6.2", "3.6.3", "4.0.0", "4.0.1", 
     "4.0.2", "4.0.3", "4.0.4", "4.0.5", "4.1.0", "4.1.1", "4.1.2", 
-    "4.1.3", "4.2.0", "4.2.1", "4.2.2", "4.2.3", "4.3.0", "4.3.1"
-    ), date = structure(c(881225278, 882709762, 884392315, 889903555, 
-    894095897, 897828980, 897862405, 900069225, 904294939, 909144521, 
-    910967839, 912776788, 916059350, 920644034, 923491181, 926083543, 
-    930918195, 935749769, 939211984, 943273514, 945260947, 949922690, 
-    951814523, 955701858, 961058601, 966329658, 976875565, 979553881, 
-    983191405, 988284587, 993206462, 999261952, 1008756894, 1012391855, 
-    1020074486, 1024312833, 1033466791, 1036146797, 1042212874, 1050497887, 
-    1055757279, 1065611639, 1069416021, 1081766198, 1087816179, 1096899878, 
-    1100528190, 1113863193, 1119259633, 1128594134, 1135074921, 1145875040, 
-    1149150333, 1159870504, 1166435363, 1177407703, 1183029426, 1191402173, 
-    1196086444, 1202469005, 1208850329, 1214207072, 1219654436, 1224494641, 
-    1229936597, 1239957168, 1246018257, 1251102154, 1256547742, 1260786504, 
-    1271923881, 1275293425, 1287132117, 1292490724, 1298632039, 1302683487, 
-    1310117828, 1317366356, 1320048549, 1324541418, 1330503010, 1333091765, 
-    1340348984, 1351235476, 1362126509, 1364973156, 1368688293, 1380093069, 
-    1394093553, 1397113870, 1404976269, 1414743092, 1425888740, 1429168413, 
-    1434611704, 1439536398, 1449735188, 1457597745, 1460649578, 1462259608, 
-    1466493698, 1477901595, 1488788191, 1492758885, 1498806251, 1506582275, 
-    1512029105, 1521101067, 1524467078, 1530515071, 1545293080, 1552291489, 
-    1556262303, 1562310303, 1576137903, 1582963516, 1587711934, 1591427116, 
-    1592809519, 1602313524, 1613376313, 1617174315, 1621321522, 1628579106, 
-    1635753912, 1646899538, 1650611141, 1655967933, 1667203554, 1678867561, 
-    1682060774, 1686899167), class = c("POSIXct", "POSIXt"), tzone = "UTC")),
-    class = "data.frame", row.names = c(NA, -132L))
+    "4.1.3", "4.2.0", "4.2.1", "4.2.2", "4.2.3", "4.3.0", "4.3.1", 
+    "4.3.2", "4.3.3", "4.4.0"), date = structure(c(881225278, 882709762, 
+    884392315, 889903555, 894095897, 897828980, 897862405, 900069225, 
+    904294939, 909144521, 910967839, 912776788, 916059350, 920644034, 
+    923491181, 926083543, 930918195, 935749769, 939211984, 943273514, 
+    945260947, 949922690, 951814523, 955701858, 961058601, 966329658, 
+    976875565, 979553881, 983191405, 988284587, 993206462, 999261952, 
+    1008756894, 1012391855, 1020074486, 1024312833, 1033466791, 1036146797, 
+    1042212874, 1050497887, 1055757279, 1065611639, 1069416021, 1081766198, 
+    1087816179, 1096899878, 1100528190, 1113863193, 1119259633, 1128594134, 
+    1135074921, 1145875040, 1149150333, 1159870504, 1166435363, 1177407703, 
+    1183029426, 1191402173, 1196086444, 1202469005, 1208850329, 1214207072, 
+    1219654436, 1224494641, 1229936597, 1239957168, 1246018257, 1251102154, 
+    1256547742, 1260786504, 1271923881, 1275293425, 1287132117, 1292490724, 
+    1298632039, 1302683487, 1310117828, 1317366356, 1320048549, 1324541418, 
+    1330503010, 1333091765, 1340348984, 1351235476, 1362126509, 1364973156, 
+    1368688293, 1380093069, 1394093553, 1397113870, 1404976269, 1414743092, 
+    1425888740, 1429168413, 1434611704, 1439536398, 1449735188, 1457597745, 
+    1460649578, 1462259608, 1466493698, 1477901595, 1488788191, 1492758885, 
+    1498806251, 1506582275, 1512029105, 1521101067, 1524467078, 1530515071, 
+    1545293080, 1552291489, 1556262303, 1562310303, 1576137903, 1582963516, 
+    1587711934, 1591427116, 1592809519, 1602313524, 1613376313, 1617174315, 
+    1621321522, 1628579106, 1635753912, 1646899538, 1650611141, 1655967933, 
+    1667203554, 1678867561, 1682060774, 1686899167, 1698739662, 1709194073, 
+    1713931676), class = c("POSIXct", "POSIXt"), tzone = "UTC")), 
+    class = "data.frame", row.names = c(NA, -135L))
 }
 
 install_any <- function(x, ...) {

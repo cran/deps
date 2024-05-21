@@ -1,8 +1,7 @@
 Package: deps
 Type: Package
 Title: Dependency Management with 'roxygen'-Style Comments
-Version: 0.2.0
-Date: 2023-06-26
+Version: 0.3.0
 Authors@R: c(
   person(given = "Peter",
     family = "Solymos",
@@ -17,15 +16,16 @@ Description: Manage your source code dependencies
 License: MIT + file LICENSE
 LazyLoad: yes
 Imports: renv, jsonlite, remotes
-RoxygenNote: 7.2.3
+RoxygenNote: 7.3.1
 Encoding: UTF-8
 BugReports: https://github.com/analythium/deps/issues
-URL: https://github.com/analythium/deps
+URL: https://hub.analythium.io/deps/,
+        https://github.com/analythium/deps
 Language: en-US
 NeedsCompilation: no
-Packaged: 2023-06-27 04:03:09 UTC; Peter
+Packaged: 2024-05-21 05:29:13 UTC; Peter
 Author: Peter Solymos [aut, cre] (<https://orcid.org/0000-0001-7337-1740>),
   Analythium Solutions Inc. [cph, fnd]
 Maintainer: Peter Solymos <peter@analythium.io>
 Repository: CRAN
-Date/Publication: 2023-06-27 05:30:02 UTC
+Date/Publication: 2024-05-21 05:50:02 UTC

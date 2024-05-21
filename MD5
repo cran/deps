@@ -1,12 +1,12 @@
-2d0c4d28a0dd6e2ae753276d94afd907 *DESCRIPTION
+28a54145159167fc5af63f8292e7e707 *DESCRIPTION
 4c1c591ab7434d7b0c91b748303f42f5 *LICENSE
 98095c1395eace3dedd662f54530d0fa *NAMESPACE
-08f640183e109448941a947245afd49f *NEWS.md
-50f65c54e972bc0052ef48061443f9b8 *R/create.R
+3b50ca486588086ecd22a4caf884467a *NEWS.md
+aab3963eca73b17ff5c352aa7e78943b *R/create.R
 b4fe12876c37f8a22cde06e9701eecf0 *R/deps-package.R
 a9ddc429d6c4ced4556bbda2cf873e28 *R/install.R
-8e7773d2bd7a5785a3d99a0c65c68b3f *R/utils.R
-c3f114acf78976e717b7095ff1b1f0ac *inst/WORDLIST
+e86fff515958e5c4930a5ff669e591c0 *R/utils.R
+f49ef08894a613a91cb81c60cc2b544b *inst/WORDLIST
 236ce1fddc9957cc53673f10f01cc28a *inst/examples/01-basic/index.R
 510f858146920df93029e7d2efd0dfaa *inst/examples/02-docker/Dockerfile
 ba0f03221024abb5030e0ab030de732d *inst/examples/02-docker/README.md
@@ -17,6 +17,6 @@ ba0f03221024abb5030e0ab030de732d *inst/examples/02-docker/README.md
 da1ff97d7be50e840382a34453015211 *inst/examples/04-local/add/DESCRIPTION
 c3738cbba5e288108febac77ec7af9ca *inst/examples/04-local/add/R/add.R
 6472ef7633d67fdb30d03cdbb28d8b36 *inst/examples/04-local/index.R
-3a33dd74d265897530ca81340e426122 *man/create.Rd
-f64741d3b338193b7672383ed7945611 *man/deps-package.Rd
+2fb77203667cead37ac2f3a58925b004 *man/create.Rd
+cf8c67f2f4d73a0910e6655877ecaf7a *man/deps-package.Rd
 0dd75e1b5f887e8401df6ed90e864fcc *man/install.Rd
