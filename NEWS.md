@@ -1,3 +1,8 @@
+# Version 0.4.0
+
+* R versions updated with new release 4.4.1.
+* Support Quarto (qmd) files.
+
 # Version 0.3.0
 
 * `sysreqs` function removed due to archival of the sysreqs database it relied on.

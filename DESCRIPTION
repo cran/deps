@@ -1,7 +1,7 @@
 Package: deps
 Type: Package
 Title: Dependency Management with 'roxygen'-Style Comments
-Version: 0.3.0
+Version: 0.4.0
 Authors@R: c(
   person(given = "Peter",
     family = "Solymos",
@@ -23,9 +23,9 @@ URL: https://hub.analythium.io/deps/,
         https://github.com/analythium/deps
 Language: en-US
 NeedsCompilation: no
-Packaged: 2024-05-21 05:29:13 UTC; Peter
+Packaged: 2024-07-07 14:44:32 UTC; Peter
 Author: Peter Solymos [aut, cre] (<https://orcid.org/0000-0001-7337-1740>),
   Analythium Solutions Inc. [cph, fnd]
 Maintainer: Peter Solymos <peter@analythium.io>
 Repository: CRAN
-Date/Publication: 2024-05-21 05:50:02 UTC
+Date/Publication: 2024-07-07 15:00:02 UTC
